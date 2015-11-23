@@ -1,0 +1,101 @@
+<?php 
+
+
+
+/**
+ * Implements hook_permission()
+ */
+function module_NS_permission() {
+  return array(
+    'access module_NS' => array(
+      'title' => t('Access module_NS'),
+      'description' => t('Display module_NS.'),
+    ),
+  );
+}
+
+
+
+
+
+
+/**
+ * Implements hook_menu()
+ */
+function module_NS_menu() {
+
+	$items = array();
+	$items['new-homepage'] = array(
+							'title'           => 'This is new homepage',
+							'page callback'   => 'my_first_page',
+							//'access arguments' => array('access module_NS'),
+						);
+
+	$items['new-403'] = array(
+							'title'           => '403',
+							'page callback'   => 'new_403_func',
+							//'access arguments' => array('aaccess module_NS'),
+						);
+
+	$items['new-404'] = array(
+							'title'           => '404',
+							'page callback'   => 'new_404_func',
+							//'access arguments' => array('access module_NS'),
+						);
+	return $items;
+}
+
+
+/**
+ * Function lesson3-ex1
+ */
+
+function my_first_page() {
+	return t ('Hello world!');
+}
+
+function new_403_func() {
+	return t ('<h1>403</h1>');
+}
+function new_404_func() {
+	return t ('<h1>404</h1>');
+}
+
+
+
+
+
+
+
+
+//http://drupalguide.ru/videos/sozdanie-blokov-v-drupal-7
+
+/**
+ * Implements hook_block_info()
+ */
+function module_NS_block_info() {   //унікальний ідентифікатор delta
+	$blocks = array();
+	$blocks['my_first_block'] = array(
+								'info'            => t('My custom block'),
+								'access arguments' => array('access module_NS'),
+							);
+	return $blocks;
+}
+
+
+/**
+ * Implements hook_block_view()
+ */
+function module_NS_block_view($delta = '') {
+	$block = array();
+	if ($delta == 'my_first_block') {
+		if (user_access('access module_NS')) {
+			$block['subject'] = t('My custom block');
+			$block['content'] = t('Υπάρχουν πολλές εκδοχές των αποσπασμάτων του Lorem Ipsum διαθέσιμες, αλλά η πλειοψηφία τους έχει δεχθεί κάποιας μορφής αλλοιώσεις, με ενσωματωμένους αστεεισμούς, ή τυχαίες λέξεις που δεν γίνονται καν πιστευτές. Εάν πρόκειται να χρησιμοποιήσετε ένα κομμάτι του Lorem Ipsum, πρέπει να είστε βέβαιοι πως δεν βρίσκεραγματική γεννήτρια στο διαδίκτυο. Χρησιμοποιεί ένα λεξικό με πάνω από 200 λατινικές λέξεις, συνδυασμένες με ένα εύχρηστο μοντέλο σύνταξης προτάσεων, ώστε να παράγει Lorem Ipsum που δείχνει λογικό. Από εκεί και πέρα, το Lorem Ipsum παραμένει πάντα ανοιχτό σε επαναλήψεις, ενσωμάτωση χιούμορ, μη κατανοητές λέξεις κλπ. ');
+		}
+
+	}
+	return $block;
+}
+
+
