@@ -1,17 +1,24 @@
 <?php 
 
+/**
+ * Implements hook_init()
+ */
+function module_NS_init() {
+  drupal_add_css(drupal_get_path('module', 'template') .'/style.css');
+}
+
 
 
 /**
  * Implements hook_permission()
  */
 function module_NS_permission() {
-  return array(
-    'access module_NS' => array(
-      'title' => t('Access module_NS'),
-      'description' => t('Display module_NS.'),
-    ),
-  );
+	return array(
+				'access module_NS' => array(
+											'title'       => t('Access module_NS'),
+											'description' => t('Display module_NS.'),
+											),
+  				);
 }
 
 
@@ -26,22 +33,22 @@ function module_NS_menu() {
 
 	$items = array();
 	$items['new-homepage'] = array(
-							'title'           => 'This is new homepage',
-							'page callback'   => 'my_first_page',
-							//'access arguments' => array('access module_NS'),
-						);
+								'title'           => 'New homepage',
+								'page callback'   => 'my_first_page',
+								'access callback' => TRUE,
+								);
 
 	$items['new-403'] = array(
 							'title'           => '403',
 							'page callback'   => 'new_403_func',
-							//'access arguments' => array('aaccess module_NS'),
-						);
+							'access callback' => TRUE,
+							);
 
 	$items['new-404'] = array(
 							'title'           => '404',
 							'page callback'   => 'new_404_func',
-							//'access arguments' => array('access module_NS'),
-						);
+							'access callback' => TRUE,
+							);
 	return $items;
 }
 
@@ -51,14 +58,47 @@ function module_NS_menu() {
  */
 
 function my_first_page() {
-	return t ('Hello world!');
+	return t ('<ol>
+					<li>
+						<h3>hook_menu </h3>
+						<p>Створити   власну   сторінку,   яка   у   подальшому   буде   головною   вашого   сайту,   також   створити   сторінки   “403”  
+				та “404”, змінити адреси цих сторінок у системних налаштуваннях сайту. </p>
+					</li>
+					<li>
+						<h3>hook_block_info & hook_block_view  </h3>
+						<p>Створити блок, у якому буде виводитися довільний текст, також блок повинен мати заголовок. 
+				Блок повинен виводитися на кожній сторінці сайту. </p>
+					</li>
+					<li>
+						<h3>hook_permission </h3>
+						<p>Створити доступ, який буде контролювати перегляд контенту у попередньо створеному блоці. 
+				Якщо   певний   користувач   має   доступ,   тоді   відображати   текст   що   є   у   блоці,   якщо   доступ   відсутній,   тоді  
+				писати надпис "access to view this content is denied.". </p>
+					</li>
+					<li>
+						<h3>Додаткові хукі </h3>
+						<p>Ознайомитися   та   знати   наступні   хуки:   hook_init,   hook_node_view,   hook_node_access,   hook_node_insert,  
+				hook_node_update,  
+				hook_node_delete,  
+				hook_user_view,  
+				hook_user_insert,  
+				hook_user_update,  
+				hook_user_delete. </p>
+					</li>
+					<li>
+						<h3>Загальні замітки: </h3>
+						<p> 
+							Необхідно знати, що таке хук і навіщо він. Обов`язково модуль повинен супроводжуватися кодінг стандартами (​http://drupal.org/coding­standards​).
+						</p>
+					</li>
+				</ol>');
 }
 
 function new_403_func() {
-	return t ('<h1>403</h1>');
+	return t ('<h1>HTTP 403 Forbidden</h1>');
 }
 function new_404_func() {
-	return t ('<h1>404</h1>');
+	return t ('<h1>404</h1> page not found');
 }
 
 
@@ -76,9 +116,9 @@ function new_404_func() {
 function module_NS_block_info() {   //унікальний ідентифікатор delta
 	$blocks = array();
 	$blocks['my_first_block'] = array(
-								'info'            => t('My custom block'),
+								'info'             => t('My custom block'),
 								'access arguments' => array('access module_NS'),
-							);
+								);
 	return $blocks;
 }
 
@@ -92,6 +132,10 @@ function module_NS_block_view($delta = '') {
 		if (user_access('access module_NS')) {
 			$block['subject'] = t('My custom block');
 			$block['content'] = t('Υπάρχουν πολλές εκδοχές των αποσπασμάτων του Lorem Ipsum διαθέσιμες, αλλά η πλειοψηφία τους έχει δεχθεί κάποιας μορφής αλλοιώσεις, με ενσωματωμένους αστεεισμούς, ή τυχαίες λέξεις που δεν γίνονται καν πιστευτές. Εάν πρόκειται να χρησιμοποιήσετε ένα κομμάτι του Lorem Ipsum, πρέπει να είστε βέβαιοι πως δεν βρίσκεραγματική γεννήτρια στο διαδίκτυο. Χρησιμοποιεί ένα λεξικό με πάνω από 200 λατινικές λέξεις, συνδυασμένες με ένα εύχρηστο μοντέλο σύνταξης προτάσεων, ώστε να παράγει Lorem Ipsum που δείχνει λογικό. Από εκεί και πέρα, το Lorem Ipsum παραμένει πάντα ανοιχτό σε επαναλήψεις, ενσωμάτωση χιούμορ, μη κατανοητές λέξεις κλπ. ');
+		}
+		elseif (!user_access('access module_NS')) {
+			$block['subject'] = t('');
+			$block['content'] = t('access to view this content is denied.');
 		}
 
 	}
