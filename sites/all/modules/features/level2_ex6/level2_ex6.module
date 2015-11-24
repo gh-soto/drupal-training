@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the level2-ex6 feature.
+ */
+
+include_once 'level2_ex6.features.inc';
