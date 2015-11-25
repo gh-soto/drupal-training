@@ -103,11 +103,8 @@ function my_theming_page_callback() {
 									'attributes' => array('id' => 'my-list',
 														'class' => 'class',
 													),
-								)
-					);
+								));
 	//$output .= $list;
-
-
 
 
 
@@ -135,9 +132,7 @@ function my_theming_page_callback() {
 	//fieldset
 	drupal_add_library('system', 'drupal.collapse');
 	$fieldset_params = array(
-		// оглавление списка 
 		'#title' => t('fieldset title'), 
-		// содержимое fieldset-а 
 		'#children' => t($list), 
 		// список у нас складной 
 		'#collapsible' => true,	 
@@ -146,7 +141,7 @@ function my_theming_page_callback() {
 		// в атрибутах указываем, что надо использовать указанные классы
 		'#attributes'	=> array('class' => array(
 												'collapsible', 
-												'collapsed'
+												//'collapsed'
 											),
 							),
 	);
@@ -154,7 +149,7 @@ function my_theming_page_callback() {
 
 
 
-
+	//theme_image_style
 	$image = theme('image_style',array(
 										'path' => 'public://img-thing.jpg',
 										'style_name' => 'my_theming',
@@ -164,9 +159,75 @@ function my_theming_page_callback() {
 									));
 	$output .= $image;
 
+
+
+
+	//виведення просто тексту функцією темізації
+	$text_one = "საბეჭდი და ტიპოგრაფიული ინდუსტრიის უშინაარსო ტექსტია. იგი სტანდარტად 1500-იანი წლებიდან იქცა, როდესაც უცნობმა მბეჭდავმა ამწყობ დაზგაზე წიგნის საცდელი ეგზემპლარი დაბეჭდა. მისი ტექსტი არამარტო 5 საუკუნის მანძილზე შემორჩა, არამედ მან დღემდე, ელექტრონული ტიპოგრაფიის დრომდეც უცვლელად მოაღწია. განსაკუთრებული პოპულარობა მას 1960-იან წლებში გამოსულმა Letraset-ის ცნობილმა ტრაფარეტებმა მოუტანა, უფრო მოგვიანებით კი — Aldus PageMaker-ის ტიპის საგამომცემლო პროგრამებმა, რომლებშიც Lorem Ipsum-ის სხვადასხვა ვერსიები იყო ჩაშენებული. ";
+	$text_h2 = theme('my_theming_function', array('text_one' => $text_one, 'text_two' => NULL));
+	$output .= $text_h2;
+
+
+
+	//застосування шаблону темізації
+	$text_one_template = 'some text in template variable';
+	$text_two_template = 'text_two_template';
+
+	/*$test_template = array(
+		'#theme' => 'my_theming_template',
+		'#type' => 'markup',
+		'#text_one' => $text_one_template,
+		'#text_two' => $text_two_template,
+		);*/
+
+	$test_template = theme('my_theming_template', array('type' => 'markup',
+		'text_one' => $text_one_template,
+		'text_two' => $text_two_template,));
+	$output .= $test_template;
+	
+
+
+
+
 	return $output;
 }
 
 
 
+
+/*------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------*/
+
+
+
+/**
+ * Implements hook_theme()
+ */
+function my_theming_theme($existing, $type, $theme, $path) {
+	return array(
+				'my_theming_function' => array(
+					'variables' => array(
+						'text_one' => NULL, 
+						'text_two' => NULL,
+					),
+				),
+				'my_theming_template' => array(
+					'variables' => array(
+						'text_one' => NULL,
+						'text_two' => NULL,
+					),
+					'template' => 'my_theming_template',
+				),
+			);
+}
+
+
+/**
+ * Theme function example
+ */
+function theme_my_theming_function($variables) {
+	$output = "<h2><strong>" . $variables['text_one'] . "</strong></h2>";
+	$output .= "<p>" . $variables['text_two'] . "</p>";
+	return $output;
+}
 
