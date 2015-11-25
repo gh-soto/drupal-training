@@ -170,7 +170,7 @@ function my_theming_page_callback() {
 
 
 	//застосування шаблону темізації
-	$text_one_template = 'some text in template variable';
+	$text_one_template = 'some text in template`s variable';
 	$text_two_template = 'text_two_template';
 
 	/*$test_template = array(
