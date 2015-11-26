@@ -4,6 +4,7 @@
  * Add body classes if certain regions have content.
  */
 function bartik_preprocess_html(&$variables) {
+
   if (!empty($variables['page']['featured'])) {
     $variables['classes_array'][] = 'featured';
   }
@@ -40,6 +41,7 @@ function bartik_process_html(&$variables) {
  * Override or insert variables into the page template.
  */
 function bartik_process_page(&$variables) {
+  kpr($variables);
   // Hook into color.module.
   if (module_exists('color')) {
     _color_page_alter($variables);
@@ -109,6 +111,7 @@ function bartik_process_maintenance_page(&$variables) {
  * Override or insert variables into the node template.
  */
 function bartik_preprocess_node(&$variables) {
+  //kpr($variables);
   if ($variables['view_mode'] == 'full' && node_is_page($variables['node'])) {
     $variables['classes_array'][] = 'node-full';
   }

@@ -1,0 +1,159 @@
+<?php 
+
+/**
+  * @file
+  * Build page and form "contacts".
+  */
+
+
+
+
+/**
+ * Implements hook_menu()
+ */
+function my_forms_menu() {
+  $items = array();
+
+  $items['contacts'] = array( //this creates a URL that will call this form at "examples/form-example"
+	'title' => t('module with form'),
+	'description' => 'A form to mess around with.',
+	'page callback' => 'my_forms_callback',
+	'access callback' => TRUE
+  );
+
+  return $items;
+}
+
+
+
+function my_forms_callback() {
+	$items = array();
+	$items = drupal_get_form('my_forms_form');
+	return $items;
+}
+
+
+
+
+function my_forms_form($form, &$form_state) {
+
+	$form['firstname'] = array(
+		'#type'      => 'textfield',
+		'#title'     => t('your firstname'),
+		'#size'      => 60,
+		'#maxlength' => 60,
+		'#required'  => false,  
+	);
+	$form['secondname'] = array(
+		'#type'      => 'textfield',
+		'#title'     => t('your secondname'),
+		'#size'      => 60,
+		'#maxlength' => 60,
+		'#required'  => false, 
+	);
+	$form['nickname'] = array(
+		'#type'      => 'textfield',
+		'#title'     => t('your nickname'),
+		'#size'      => 20,
+		'#maxlength' => 20,
+		'#required'  => TRUE, 
+	);
+	$form['email'] = array(
+		'#type'      => 'textfield',
+		'#title'     => 'e-mail',
+		'#size'      => 60,
+		'#maxlength' => 60,
+		'#required'  => TRUE, 
+	);
+	$form['phone_number'] = array(
+		'#type'        => 'textfield', 
+		'#title'       => t('your phone number'),
+		'#size'        => 12,
+		'#maxlength'   => 12,
+		'#description' => t('(ex: 380684445566)'),
+		'#required'    => false,
+	);
+	$form['sex'] = array(
+		'#type'    => 'radios',
+		'#title'   => t('sex'),
+		'#options' => array(
+						1 => t('male'),
+						2 => t('female')
+		),
+		//'#options' => drupal_map_assoc(array(t('UK'), t('Other'))),
+	);
+	$form['country_select'] = array(
+		'#type'     => 'select',
+		'#title'    => t('country'),
+		'#options'  => array(
+						0 => t('select country'),
+						1 => t('Ukraine'),
+						2 => t('Russia'),
+						3 => t('USA'),
+		),
+	);
+	$form['message'] = array(
+		'#type'        => 'textarea', 
+		'#title'       => t('Message'),
+		'#rows'        => 7,
+		'#required'    => false,
+	);
+	$form['agree_checkbox'] = array(
+		'#type'     => 'checkbox',
+		'#title'    => t('you agree to our Terms and that you have read our Privacy Policy'),
+		'#required' => TRUE,
+	);
+	$form['submit_button'] = array(
+		'#type'  => 'submit',
+		'#value' => t('Click Here!'),
+	);
+	$form['some_fieldset'] = array(
+		'#type'        => 'fieldset', 
+		'#title'       => t('Privacy Policy'), 
+		'#weight'      => 5, 
+		'#collapsible' => TRUE, 
+		'#collapsed'   => TRUE,
+		'#value'       => t('This policy takes effect on Jan 1, 2016. The current policy can be found <a href="https://www.reddit.com/help/privacypolicy?v=33a67dd2-e2c6-11e4-807a-22000b248ffc">here</a>.'),
+	);  
+	return $form;
+}
+
+function my_forms_form_validate($form, &$form_state) {
+	$mail = $form_state['values']['email'];
+	if (!valid_email_address($mail)) {
+		form_set_error('[submitted][email_address]', t('The email address appears to be invalid.'));
+	}
+	if (!($form_state['values']['phone_number'] > 0) || strlen((string) $form_state['values']['phone_number']) < 12){
+		form_set_error('phone_number', t('check your phone number'));
+	}
+}
+
+
+function my_forms_form_submit($form, &$form_state) {
+	debug($form_state['values']);
+
+/*	function get_select_or_radios_options_value($i) {
+		$key = $form_state['values'][$i];
+		$value = $form[$i]['#options'][$key];
+		return $value;
+	}*/
+	$key = $form_state['values']['country_select'];
+	$value = $form['country_select']['#options'][$key];
+
+	$key1 = $form_state['values']['sex'];
+	$value1 = $form['sex']['#options'][$key];
+
+	drupal_set_message(t('The form has been submitted.<br>'
+						 . $form_state['values']['firstname'] . '<br>'
+						 . $form_state['values']['secondname'] . '<br>'
+						 . $form_state['values']['nickname'] . '<br>'
+						 . $form_state['values']['email'] . '<br>'
+						 . $form_state['values']['phone_number'] . '<br>'
+						 . $value1 . '<br>'
+						 //. $form['country_select']['#options'][$form_state['values']['country_select']] . '<br>'
+						 //. get_select_or_radios_options_value('country_select') . '<br>'
+						 . $value . '<br>'
+						 . $form_state['values']['message'] . '<br>'
+						 ));
+
+}
