@@ -180,9 +180,12 @@ function my_theming_page_callback() {
 		'#text_two' => $text_two_template,
 		);*/
 
-	$test_template = theme('my_theming_template', array('type' => 'markup',
+	$test_template = theme('my_theming_template', array(
+		'type' => 'markup',
 		'text_one' => $text_one_template,
-		'text_two' => $text_two_template,));
+		'text_two' => $text_two_template,
+		)
+	);
 	$output .= $test_template;
 	
 

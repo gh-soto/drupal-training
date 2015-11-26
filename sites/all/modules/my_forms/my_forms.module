@@ -26,13 +26,15 @@ function my_forms_menu() {
 
 
 
+
+
+
 function my_forms_callback() {
 	$items = array();
 	$items = drupal_get_form('my_forms_form');
+
 	return $items;
 }
-
-
 
 
 function my_forms_form($form, &$form_state) {
@@ -97,6 +99,7 @@ function my_forms_form($form, &$form_state) {
 		'#title'       => t('Message'),
 		'#rows'        => 7,
 		'#required'    => false,
+		'#cols'        => 40,
 	);
 	$form['agree_checkbox'] = array(
 		'#type'     => 'checkbox',
@@ -118,21 +121,23 @@ function my_forms_form($form, &$form_state) {
 	return $form;
 }
 
+
 function my_forms_form_validate($form, &$form_state) {
 	$mail = $form_state['values']['email'];
 	if (!valid_email_address($mail)) {
 		form_set_error('[submitted][email_address]', t('The email address appears to be invalid.'));
 	}
-	if (!($form_state['values']['phone_number'] > 0) || strlen((string) $form_state['values']['phone_number']) < 12){
-		form_set_error('phone_number', t('check your phone number'));
+	if (!($form_state['values']['phone_number'] > 0) || strlen((string) $form_state['values']['phone_number']) < 12) {
+		if (!empty($form_state['values']['phone_number'])) {
+			form_set_error('phone_number', t('check your phone number'));
+		}		
 	}
 }
 
 
 function my_forms_form_submit($form, &$form_state) {
-	debug($form_state['values']);
-
-/*	function get_select_or_radios_options_value($i) {
+	dsm($form_state['values']);
+  /*function get_select_or_radios_options_value($i) {
 		$key = $form_state['values'][$i];
 		$value = $form[$i]['#options'][$key];
 		return $value;
@@ -156,4 +161,16 @@ function my_forms_form_submit($form, &$form_state) {
 						 . $form_state['values']['message'] . '<br>'
 						 ));
 
+}
+
+
+/**
+ * Implements hook_form_alter()
+ */
+function my_forms_form_alter(&$form, &$form_state, $form_id) {
+	if ($form_id == 'my_forms_form') {
+		$form['message']['#rows'] = 3;
+		dsm($form_id); // показывает ID формы
+		dsm($form); 
+	}
 }
