@@ -33,18 +33,52 @@ function my_database_menu() {
    		'type'             => MENU_NORMAL_ITEM, 
 
 	);
+	$items['my-database-table'] = array(
+		'title'            => t('my database table'),
+		'description'      => 'blabla',
+		'page callback'    => 'my_database_table_callback_function',
+		//'access callback' => TRUE,
+		'access arguments' => array('submit_my_database_form'),
+		'menu_name'        => 'main-menu',
+   		'type'             => MENU_NORMAL_ITEM, 
+	);
 	return $items;
 }
 
 
 /**
- * page callback function
+ * my-database page callback function
  */
 function my_database_callback_function() {
 	$output = array();
 	$output = drupal_get_form('my_database_form');
 	return $output;
+}
 
+/**
+ * my-database-table page callback function
+ */
+function my_database_table_callback_function() {
+	$output = '';
+	//таблиця
+	$header = array( 
+		array('data' => t('id')),	 
+		array('data' => t('number')),	 
+		array('data' => t('teaser')),
+		array('data' => t('text')),	
+	); 
+
+	$query = db_select('custom_table', 't')
+		->fields('t', array('id', 'number', 'teaser', 'text'))
+		->execute();	
+	$rows[] = array( 
+		array('data' => t('')),	
+		array('data' => t('')),	
+		array('data' => t('')),
+		array('data' => t('')),		 
+	); 
+	$output .= theme('table', array('header' => $header, 'rows'=> $rows));
+	return $output;
 }
 
 
