@@ -21,7 +21,7 @@ function my_theme_preprocess_page(&$vars, $hook) {
   //dsm($vars);
 
   if (!empty($vars['node']) && $vars['node']->nid == 3) {
-    $vars['site_name'] = 'header/header';  
+    $vars['site_name'] = 'Changed header';  
     $vars['title'] = 'Exampletemplate_preprocess_page';
     
   }

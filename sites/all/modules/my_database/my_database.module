@@ -1,0 +1,106 @@
+<?php 
+/**
+ * @file
+ * Contains base function for module.
+ */
+
+
+/**
+ * Implements hook_permission().
+ */
+function my_database_permisiion() {
+	return array(
+		'submit_my_database_form' => array(
+			'title'       => t('Submit my_database_form'),
+			'description' => t('Submit the my_database_form'),
+		),
+	);
+}
+
+
+/**
+ * Implements hook_menu().
+ */
+function my_database_menu() {
+	$items = array();
+	$items['my-database'] = array(
+		'title'            => t('form + database'),
+		'description'      => 'blabla',
+		'page callback'    => 'my_database_callback_function',
+		//'access callback' => TRUE,
+		'access arguments' => array('submit_my_database_form'),
+		'menu_name'        => 'main-menu',
+   		'type'             => MENU_NORMAL_ITEM, 
+
+	);
+	return $items;
+}
+
+
+/**
+ * page callback function
+ */
+function my_database_callback_function() {
+	$output = array();
+	$output = drupal_get_form('my_database_form');
+	return $output;
+
+}
+
+
+/**
+ * form
+ */
+function my_database_form($form, &$form_state) {
+
+	$form['number'] = array(
+		'#type'      => 'textfield',
+		'#title'     => t('number'),
+		'#size'      => 60,
+		'#maxlength' => 60,
+		'#required'  => TRUE,  
+	);
+	$form['teaser'] = array(
+		'#type'       => 'textarea', 
+		'#title'      => t('teaser'),
+		'#rows'       => 3,
+		'#required'   => TRUE,
+		'#attributes' => array(
+			'maxlength' => array('150')
+		),
+		'#description' => t('maxlength: 150 chars'),
+	);
+	$form['text'] = array(
+		'#type'     => 'textarea', 
+		'#title'    => t('long text'),
+		'#rows'     => 7,
+		'#required' => TRUE,
+	);
+	$form['submit_button'] = array(
+		'#type'  => 'submit',
+		'#value' => t('insert into database'),
+	);	
+	return $form;
+}
+
+//перевірка на integer
+function my_database_form_validate($form, &$form_state) {
+	$value = $form_state['values']['number'];
+	if ($value !== '' && (!is_numeric($value) || intval($value) != $value)) {
+		form_set_error('number', t('check your number. It must be integer.'));		
+	}
+}
+
+function my_database_form_submit($form, &$form_state) {
+	$query = db_insert('custom_table')->fields(array(
+			'number' => $form_state['values']['number'],
+			'teaser' => $form_state['values']['teaser'],
+			'text'	 => $form_state['values']['text'],
+		))->execute();
+	if ($query > 0) {
+		drupal_set_message(t('Data has been successfully sent.'));
+	}
+	else {
+		drupal_set_message(t("Data hasn't been sent."), 'error');
+	}
+}
