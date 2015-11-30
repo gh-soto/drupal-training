@@ -32,6 +32,7 @@ function my_theming_menu() {
     'title'           => 'My theming',
     'page callback'   => 'my_theming_page_callback',
     'access callback' => TRUE,
+    'menu_name'       => 'menu-done',
   );
 
   return $items;

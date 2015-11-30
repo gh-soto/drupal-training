@@ -5,5 +5,5 @@
 ?>
 
 <html>
-	<h1><strong><em><?=$text_one ?></em></strong></h1>
+  <h1><strong><em><?=$text_one ?></em></strong></h1>
 </html>
