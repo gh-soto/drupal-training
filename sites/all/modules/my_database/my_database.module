@@ -23,24 +23,37 @@ function my_database_permisiion() {
  */
 function my_database_menu() {
 	$items = array();
+
 	$items['my-database'] = array(
-		'title'            => t('form + database'),
+		'title'            => t('form + DB'),
 		'description'      => 'blabla',
 		'page callback'    => 'my_database_callback_function',
 		//'access callback' => TRUE,
 		'access arguments' => array('submit_my_database_form'),
-		'menu_name'        => 'main-menu',
-   		'type'             => MENU_NORMAL_ITEM, 
+		'menu_name'        => 'menu-done',
 
 	);
 	$items['my-database-table'] = array(
-		'title'            => t('my database table'),
-		'description'      => 'blabla',
+		'title'            => t('my DB table'),
+		'description'      => 'xxxxxxx',
 		'page callback'    => 'my_database_table_callback_function',
 		//'access callback' => TRUE,
 		'access arguments' => array('submit_my_database_form'),
-		'menu_name'        => 'main-menu',
-   		'type'             => MENU_NORMAL_ITEM, 
+		'menu_name'        => 'menu-done',
+	);
+	$items['my-database/%/delete'] = array(
+		'title callback'   => 'my_database_delete_page_title',
+		'title arguments'  => array(1),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('my_database_delete_form', 1),
+		'access arguments' => array('submit_my_database_form'),
+	);
+	$items['my-database/%/edit'] = array(
+		'title callback' => 'my_database_edit_page_title',
+		'title arguments' => array(1),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('my_database_edit_form', 1),
+		'access arguments' => array('submit_my_database_form'),
 	);
 	return $items;
 }
@@ -60,31 +73,49 @@ function my_database_callback_function() {
  */
 function my_database_table_callback_function() {
 	$output = '';
+
+
+
 	//таблиця
 	$header = array( 
 		array('data' => t('id')),	 
 		array('data' => t('number')),	 
 		array('data' => t('teaser')),
 		array('data' => t('text')),	
+		array('data' => t('Edit')),
+		array('data' => t('Delete')),
 	); 
-
 	$query = db_select('custom_table', 't')
 		->fields('t', array('id', 'number', 'teaser', 'text'))
-		->execute();	
-	$rows[] = array( 
-		array('data' => t('')),	
-		array('data' => t('')),	
-		array('data' => t('')),
-		array('data' => t('')),		 
-	); 
+		->orderBy('id', 'ASC')//ORDER BY
+		->execute();
+
+	while ($value = $query->fetchAssoc()) {
+		$rows[] = array( 
+			array('data' => t($value['id'])),	
+			array('data' => t($value['number'])),	
+			array('data' => t($value['teaser'])),
+			array('data' => t($value['text'])),
+			l(t('edit'), 'my-database/' . $value['id'] . '/edit'),
+			l(t('delete'), 'my-database/' . $value['id'] . '/delete'), 
+			
+		); 		
+	}
 	$output .= theme('table', array('header' => $header, 'rows'=> $rows));
+
+
+
 	return $output;
 }
+
 
 
 /**
  * form
  */
+/*function form_template() {
+	
+}*/
 function my_database_form($form, &$form_state) {
 
 	$form['number'] = array(
@@ -137,4 +168,47 @@ function my_database_form_submit($form, &$form_state) {
 	else {
 		drupal_set_message(t("Data hasn't been sent."), 'error');
 	}
+	$form_state['redirect'] = 'my-database-table';
+}
+
+
+
+
+
+
+function my_database_delete_page_title($id) {
+	$placeholders = array(':id' => $id);
+	$number = db_query("SELECT `number` FROM {custom_table} WHERE `id` = :id", $placeholders)->fetchField();
+	return t("Are you sure you want to delete item with number '@num'?", array('@num' => $number));
+}
+
+
+
+function my_database_delete_form($form, $form_state) {
+	kpr($form_state);
+	$form = array();
+	$form['submit'] = array(
+		'#type'  => 'submit',
+		'#value' => t('Submit'),
+	);
+	$form['cancel'] = array(
+		'#markup' => l(t('Cancel'), 'my-database-table'),
+	);
+	return $form;
+}
+
+
+function my_database_delete_form_submit($form, &$form_state) {
+	$id = $form_state['build_info']['args'][0];
+	$query = db_delete('custom_table')
+	->condition('id', $id)
+	->execute();
+	$placeholders = array('@id' => $id);
+	if ($query) {
+		drupal_set_message(t("Data with id = @id has been successfully deleted.", $placeholders));
+	}
+	else {
+		drupal_set_message(t("Data hasn't been deleted."), 'error');
+	}
+	$form_state['redirect'] = 'my-database-table';
 }
