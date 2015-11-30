@@ -21,6 +21,7 @@ function my_forms_menu() {
   return $items;
 }
 
+/*-----------------------------------------------------------------------*/
 
 /**
  * Implements hook_form_alter()
@@ -39,6 +40,27 @@ function my_forms_form_alter(&$form, &$form_state, $form_id) {
     $form['actions']['submit']['#validate'][] = 'webform_client_form_21_extra_validate';
   }
 }
+
+function webform_client_form_21_extra_validate($form, &$form_state) {
+  $phone_number = $form_state['values']['submitted']['phone_number'];
+  if (!($phone_number > 0) || strlen((string) $phone_number) < 12) {
+    if (!empty($form_state['values']['submitted']['phone_number'])) {
+      form_set_error('phone_number', t('check your phone number'));
+    }   
+  }
+}
+
+function webform_client_form_21_extra_submit($form, &$form_state) { 
+  //dsm($form_state['values']['submitted']);
+  drupal_set_message(t('The form has been submitted.<br>'
+    . $form_state['values']['submitted']['firstname'] . '<br>'
+    . $form_state['values']['submitted']['secondname'] . '<br>'
+    . $form_state['values']['submitted']['nickname'] . '<br>'
+    . $form_state['values']['submitted']['email'] . '<br>'
+  ));  
+}
+
+/*-----------------------------------------------------------------------*/
 
 
 function my_forms_callback() {
@@ -96,9 +118,9 @@ function my_forms_form($form, &$form_state) {
     //'#options' => drupal_map_assoc(array(t('UK'), t('Other'))),
   );
   $form['country_select'] = array(
-    '#type'     => 'select',
-    '#title'    => t('country'),
-    '#options'  => array(
+    '#type'    => 'select',
+    '#title'   => t('country'),
+    '#options' => array(
             0 => t('select country'),
             1 => t('Ukraine'),
             2 => t('Russia'),
@@ -106,11 +128,11 @@ function my_forms_form($form, &$form_state) {
     ),
   );
   $form['message'] = array(
-    '#type'        => 'textarea', 
-    '#title'       => t('Message'),
-    '#rows'        => 7,
-    '#required'    => false,
-    '#cols'        => 40,
+    '#type'     => 'textarea', 
+    '#title'    => t('Message'),
+    '#rows'     => 7,
+    '#required' => false,
+    '#cols'     => 40,
   );
   $form['agree_checkbox'] = array(
     '#type'     => 'checkbox',
@@ -134,11 +156,14 @@ function my_forms_form($form, &$form_state) {
 
 
 function my_forms_form_validate($form, &$form_state) {
+
   $mail = $form_state['values']['email'];
   if (!valid_email_address($mail)) {
-    form_set_error('[submitted][email_address]', t('The email address appears to be invalid.'));
+    form_set_error('email', t('Please Enter a valid email address.'));
   }
-  if (!($form_state['values']['phone_number'] > 0) || strlen((string) $form_state['values']['phone_number']) < 12) {
+
+  $phone_number = $form_state['values']['phone_number'];
+  if (!($phone_number > 0) || strlen((string) $phone_number) < 12) {
     if (!empty($form_state['values']['phone_number'])) {
       form_set_error('phone_number', t('check your phone number'));
     }   
@@ -149,6 +174,9 @@ function my_forms_form_validate($form, &$form_state) {
 
 function get_options_value($i, $form, $form_state) {
   $value = $form[$i]['#options'][$form_state['values'][$i]];
+  if (empty($form_state['values'][$i])) {
+    $value = '';
+  }
   return $value;
 }
 
@@ -164,24 +192,4 @@ function my_forms_form_submit($form, &$form_state) {
     . get_options_value('sex', $form, $form_state) . '<br>'
     . $form_state['values']['message'] . '<br>'
   ));
-}
-
-///////////////////////////////////////////////////////////////////////////
-
-function webform_client_form_21_extra_validate($form, &$form_state) {
-  if (!($form_state['values']['submitted']['phone_number'] > 0) || strlen((string) $form_state['values']['submitted']['phone_number']) < 12) {
-    if (!empty($form_state['values']['submitted']['phone_number'])) {
-      form_set_error('phone_number', t('check your phone number'));
-    }   
-  }
-}
-
-function webform_client_form_21_extra_submit($form, &$form_state) { 
-  //dsm($form_state['values']['submitted']);
-  drupal_set_message(t('The form has been submitted.<br>'
-    . $form_state['values']['submitted']['firstname'] . '<br>'
-    . $form_state['values']['submitted']['secondname'] . '<br>'
-    . $form_state['values']['submitted']['nickname'] . '<br>'
-    . $form_state['values']['submitted']['email'] . '<br>'
-  ));  
 }

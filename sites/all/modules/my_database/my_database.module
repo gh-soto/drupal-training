@@ -107,16 +107,16 @@ function my_database_table_callback_function() {
 
 
 /**
- * form template
+ * form 
  */
-function form_template($a, $b, $c, $d) {
+function form_template($val_number, $val_teaser, $val_text, $val_sub_button) {
   $form['number'] = array(
     '#type'          => 'textfield',
     '#title'         => t('number'),
     '#size'          => 60,
     '#maxlength'     => 60,
     '#required'      => TRUE,
-    '#default_value' => $a,  
+    '#default_value' => $val_number,  
   );
   $form['teaser'] = array(
     '#type'          => 'textarea', 
@@ -127,18 +127,18 @@ function form_template($a, $b, $c, $d) {
       'maxlength' => array('150'),
     ),
     '#description'   => t('maxlength: 150 chars'),
-    '#default_value' => $b, 
+    '#default_value' => $val_teaser, 
   );
   $form['text'] = array(
     '#type'          => 'textarea', 
     '#title'         => t('long text'),
     '#rows'          => 7,
     '#required'      => TRUE,
-    '#default_value' => $c, 
+    '#default_value' => $val_text, 
   );
   $form['submit_button'] = array(
     '#type'  => 'submit',
-    '#value' => t($d),
+    '#value' => t($val_sub_button),
   ); 
   return $form;
 }
@@ -175,7 +175,8 @@ function my_database_form_submit($form, &$form_state) {
 
 function my_database_delete_page_title($id) {
   $placeholders = array(':id' => $id);
-  $number = db_query("SELECT `number` FROM {custom_table} WHERE `id` = :id", $placeholders)->fetchField();
+  $number = db_query("SELECT `number` FROM {custom_table} WHERE `id` = :id", $placeholders)
+    ->fetchField();
   return t("Are you sure you want to delete item with number '@num'?", array('@num' => $number));
 }
 
