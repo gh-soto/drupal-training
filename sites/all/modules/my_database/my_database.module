@@ -242,3 +242,6 @@ function my_database_edit_form_submit($form, &$form_state) {
   }
   $form_state['redirect'] = 'my-db-table';
 }
+
+
+//new commit in master
