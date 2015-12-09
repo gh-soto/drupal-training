@@ -245,3 +245,5 @@ function my_database_edit_form_submit($form, &$form_state) {
 
 
 //new commit in master
+
+//new string in master
