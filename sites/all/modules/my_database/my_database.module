@@ -244,6 +244,23 @@ function my_database_edit_form_submit($form, &$form_state) {
 }
 
 
+
 //new commit in master
 
+
 //new string in master
+
+
+//some changes
+
+
+//add change in new-branch
+
+//спроба внесення змін до коміту // add something after commiting
+
+
+
+//aaaaaaaaaaaaaaaaaa new-branch
+
+//new commit in master
+
