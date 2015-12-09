@@ -217,9 +217,9 @@ $databases = array (
   array (
     'default' => 
     array (
-      'database' => 'drupal-NS',
+      'database' => 'drupal-training',
       'username' => 'root',
-      'password' => 'oxit',
+      'password' => '111',
       'host' => 'localhost',
       'port' => '',
       'driver' => 'mysql',
