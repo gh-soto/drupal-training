@@ -1,0 +1,77 @@
+<?php
+
+/**
+ * @file
+ * Drudesk connector primary module file.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function drudesk_connector_menu() {
+  $items = array();
+  $items['admin/config/system/drudesk_access'] = array(
+    'title' => 'Drudesk connector status',
+    'title callback' => 'drudesk_connector_settings_get_title',
+    'description' => 'Configure access to Drudesk connector status',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('drudesk_connector_configure'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'drudesk_connector.admin.inc',
+  );
+  $items['drudesk-connector-status'] = array(
+    'title' => 'Drudesk connector settings',
+    'title callback' => 'drudesk_connector_get_title',
+    'page callback' => 'drudesk_connector_page_content',
+    'access callback' => 'drudesk_connector_access_callback',
+    'delivery callback' => 'drupal_json_output',
+  );
+  return $items;
+}
+
+/**
+ * Callback function to determine who has access.
+ */
+function drudesk_connector_access_callback() {
+  if (!empty($_POST['uniq_key'])) {
+    $uniq_key = variable_get('drudesk_connector_uniq_key', '');
+    if (!empty($uniq_key) && $uniq_key == $_POST['uniq_key']) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Title Callback for drudesk connector status page.
+ */
+function drudesk_connector_get_title() {
+  return t('Drudesk connector status');
+}
+
+/**
+ * Title Callback for drudesk connector settings page.
+ */
+function drudesk_connector_settings_get_title() {
+  return t('Drudesk connector settings');
+}
+
+/**
+ * Drudesk connector status page content.
+ */
+function drudesk_connector_page_content() {
+  global $base_url;
+  $status_array = array();
+  module_load_include('inc', 'update', 'update.compare');
+  $content = update_calculate_project_data(update_get_available(TRUE));
+  foreach ($content as $key => $value) {
+    if (isset($value['status']) && $value['status'] < 5) {
+      $status_array[$value['project_type']][$key] = $value;
+    }
+  }
+  if (!empty($status_array)) {
+    $status_array['domain'] = preg_replace('/https*:\/\//', '', $base_url);
+  }
+  return $status_array;
+}

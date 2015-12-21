@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Drudesk connector install module file.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function drudesk_connector_install() {
+  variable_set('drudesk_connector_uniq_key', '');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function drudesk_connector_uninstall() {
+  variable_del('drudesk_connector_uniq_key');
+}

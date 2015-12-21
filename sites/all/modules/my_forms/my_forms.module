@@ -18,6 +18,14 @@ function my_forms_menu() {
     'access callback' => TRUE,
     'menu_name' => 'menu-done',  // provides munu item.
   );
+  $items['custom-form'] = array(
+    'title' => t('Try form from "examples"'),
+    'description' => 'A form to mess around with.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('my_form_from_example_states_form'),
+    'access callback' => TRUE,
+    'file' => 'my_form_from_example_states.inc',
+  );
   return $items;
 }
 

@@ -1,0 +1,8 @@
+name = Drudesk Connector
+description = Drudesk Connector module checks the relevance of core and modules.
+core = 7.x
+package = Drudesk
+
+configure = admin/config/system/drudesk_access
+
+dependencies[] = update

@@ -31,7 +31,7 @@ function module_NS_menu() {
   $items['new-homepage'] = array(
     'title'           => 'New homepage',
     'page callback'   => 'my_first_page',
-    'access callback' => TRUE,
+    'access callback' => true,
     'menu_name'       => 'menu-done',
   );
 

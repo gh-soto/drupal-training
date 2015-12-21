@@ -76,30 +76,32 @@ function my_database_table_callback_function() {
   $output = '';
 
   //таблиця
-  $header = array( 
-    array('data' => t('id')),   
-    array('data' => t('number')),  
+  $header = array(
+    array('data' => t('id')),
+    array('data' => t('number')),
     array('data' => t('teaser')),
-    array('data' => t('text')),   
+    array('data' => t('text')),
     array('data' => t('Actions')),
-  ); 
+  );
   $query = db_select('custom_table', 't')
     ->fields('t', array('id', 'number', 'teaser', 'text'))
     ->orderBy('id', 'ASC')//ORDER BY
     ->execute();
 
+  $rows = array();
   while ($value = $query->fetchAssoc()) {
-    $rows[] = array( 
-      array('data' => t($value['id'])),   
-      array('data' => t($value['number'])),  
-      array('data' => t($value['teaser'])),
-      array('data' => t($value['text'])),
-      l(t('edit'), 'my-db/' . $value['id'] . '/edit')
-      . '<br>'
-      . l(t('delete'), 'my-db/' . $value['id'] . '/delete'),         
-    );       
+    $rows[] = array(
+      array('data' => $value['id']),
+      array('data' => $value['number']),
+      array(
+        'data' => t($value['teaser']),
+        array('data' => t($value['text'])),
+        l(t('edit'), 'my-db/' . $value['id'] . '/edit')
+        . '<br>'
+        . l(t('delete'), 'my-db/' . $value['id'] . '/delete'),
+      ));
   }
-  $output .= theme('table', array('header' => $header, 'rows'=> $rows));
+  $output .= theme('table', array('header' => $header, 'rows' => $rows));
 
   return $output;
 }
@@ -151,7 +153,7 @@ function my_database_form($form, &$form_state) {
 function my_database_form_validate($form, &$form_state) {
   $value = $form_state['values']['number'];
   if ($value !== '' && (!is_numeric($value) || intval($value) != $value)) {
-    form_set_error('number', t('check your number. It must be integer.'));     
+    form_set_error('number', t('check your number. It must be integer.'));
   }
 }
 
