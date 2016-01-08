@@ -11,7 +11,7 @@
 function my_database_permisiion() {
   return array(
     'submit_my_database_form' => array(
-      'title'       => t('Submit my_database_form'),
+      'title' => t('Submit my_database_form'),
       'description' => t('Submit the my_database_form'),
     ),
   );
@@ -99,14 +99,13 @@ function my_database_table_callback_function() {
         l(t('edit'), 'my-db/' . $value['id'] . '/edit')
         . '<br>'
         . l(t('delete'), 'my-db/' . $value['id'] . '/delete'),
-      ));
+      )
+    );
   }
   $output .= theme('table', array('header' => $header, 'rows' => $rows));
 
   return $output;
 }
-
-
 
 /**
  * form 
@@ -244,25 +243,3 @@ function my_database_edit_form_submit($form, &$form_state) {
   }
   $form_state['redirect'] = 'my-db-table';
 }
-
-
-
-//new commit in master
-
-
-//new string in master
-
-
-//some changes
-
-
-//add change in new-branch
-
-//спроба внесення змін до коміту // add something after commiting
-
-
-
-//aaaaaaaaaaaaaaaaaa new-branch
-
-//new commit in master
-

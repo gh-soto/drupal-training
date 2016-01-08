@@ -1,12 +1,11 @@
-<?php 
+<?php
 
 /**
  * Implements hook_init()
  */
 function my_theming_init() {
-  drupal_add_css(drupal_get_path('module', 'template') .'/style.css');
+  drupal_add_css(drupal_get_path('module', 'template') . '/style.css');
 }
-
 
 
 /**
@@ -15,12 +14,11 @@ function my_theming_init() {
 function my_theming_permission() {
   return array(
     'access module_NS' => array(
-      'title'       => t('Access my_theming'),
+      'title' => t('Access my_theming'),
       'description' => t('Display my_theming'),
     ),
   );
 }
-
 
 
 /**
@@ -29,10 +27,10 @@ function my_theming_permission() {
 function my_theming_menu() {
   $items = array();
   $items['my-theming'] = array(
-    'title'           => 'My theming',
-    'page callback'   => 'my_theming_page_callback',
+    'title' => 'My theming',
+    'page callback' => 'my_theming_page_callback',
     'access callback' => TRUE,
-    'menu_name'       => 'menu-done',
+    'menu_name' => 'menu-done',
   );
 
   return $items;
@@ -47,132 +45,131 @@ function my_theming_page_callback() {
   $items = array();
   $items = array(
     '0' => array(
-      'data'  => '<strong>Поширені функції темізації</strong><br> Створити модуль “my_theming”. Створити сторінку, у які буде видна реалізація наступних фунцій темізації: theme_item_list, theme_fieldset, theme_table, theme_image_style.',
-      'id'    => 'item_1',
+      'data' => '<strong>Поширені функції темізації</strong><br> Створити модуль “my_theming”. Створити сторінку, у які буде видна реалізація наступних фунцій темізації: theme_item_list, theme_fieldset, theme_table, theme_image_style.',
+      'id' => 'item_1',
       'class' => array('item-1')
     ),
     '1' => array(
-      'data'  => '<strong>Власна функція темізації</strong><br>Написати hook_theme, створити у фунцію темізації, яка буде виводити поданий текст огорнутий в тег h2 та strong. Показати приклад використання функції на сторінці, яка була створена у 1 завданні даного етапу.',
-      'id'    => 'item_2',
+      'data' => '<strong>Власна функція темізації</strong><br>Написати hook_theme, створити у фунцію темізації, яка буде виводити поданий текст огорнутий в тег h2 та strong. Показати приклад використання функції на сторінці, яка була створена у 1 завданні даного етапу.',
+      'id' => 'item_2',
       'class' => array('item-2'),
     ),
     '2' => array(
-      'data'  => '<strong>Створення tpl.php файлу</strong><br>Створити функцію темізації, яка буде виводити усі данні через окремо створений template файл. Показати приклад використання функції на сторінці, яка була створена у 1 завданні даного етапу.',
-      'id'    => 'item_3',
+      'data' => '<strong>Створення tpl.php файлу</strong><br>Створити функцію темізації, яка буде виводити усі данні через окремо створений template файл. Показати приклад використання функції на сторінці, яка була створена у 1 завданні даного етапу.',
+      'id' => 'item_3',
       'class' => array('item-3')
     ),
     '3' => array(
-      'data'  => '<strong>Встановлення теми</strong><br>Поставити тему NineSixty (960 Grid System). Перейменувати тему у “My theme” (також змінити машину назву теми)',
-      'id'    => 'item_4',
+      'data' => '<strong>Встановлення теми</strong><br>Поставити тему NineSixty (960 Grid System). Перейменувати тему у “My theme” (також змінити машину назву теми)',
+      'id' => 'item_4',
       'class' => array('item-4')
     ),
     '4' => array(
-      'data'  => '<strong>Скрипти та верстка</strong><br>Розібратися як правильно підключаються .js та .css файли до теми. Проаналізувати, як правильно пишуться js у Друпал. Навчитися підключати нові .js та .css у модулі Друпал у формі та у hook_init.',
-      'id'    => 'item_5',
+      'data' => '<strong>Скрипти та верстка</strong><br>Розібратися як правильно підключаються .js та .css файли до теми. Проаналізувати, як правильно пишуться js у Друпал. Навчитися підключати нові .js та .css у модулі Друпал у формі та у hook_init.',
+      'id' => 'item_5',
       'class' => array('item-5')
     ),
     '5' => array(
-      'data'  => '<strong>tpl файли та препроцеси</strong><br>Проаналізувати доцільність використання tpl файлів у Друпал. Знати які є системні tpl файли. Створити будь який матеріал (не важливо який, аби був текст та заголовок, можна взяти вже існуючий). За допомогою функції template_preprocess_page замінити заголовок цієї ноди на "Example template_preprocess_page". Познайомитися та знати що роблять наступні препроцеси: template_preprocess_node, template_preprocess_html, template_preprocess_field, template_preprocess_block. ',
-      'id'    => 'item_6',
+      'data' => '<strong>tpl файли та препроцеси</strong><br>Проаналізувати доцільність використання tpl файлів у Друпал. Знати які є системні tpl файли. Створити будь який матеріал (не важливо який, аби був текст та заголовок, можна взяти вже існуючий). За допомогою функції template_preprocess_page замінити заголовок цієї ноди на "Example template_preprocess_page". Познайомитися та знати що роблять наступні препроцеси: template_preprocess_node, template_preprocess_html, template_preprocess_field, template_preprocess_block. ',
+      'id' => 'item_6',
       'class' => array('item-6')
     ),
     '6' => array(
-      'data'     => '<strong>Загальні замітки:</strong>',
-      'id'       => 'item_7',
-      'class'    => array('item-7'),
-      'style'    => 'list-style-type:none',
+      'data' => '<strong>Загальні замітки:</strong>',
+      'id' => 'item_7',
+      'class' => array('item-7'),
+      'style' => 'list-style-type:none',
       'children' => array(
         '0' => array(
-          'data'  => 'Варто зрозуміти суть препроцесів ',
-          'id'    => 'sub_1',
+          'data' => 'Варто зрозуміти суть препроцесів ',
+          'id' => 'sub_1',
           'class' => array('sub-item-1'),
           'style' => 'list-style-type:circle',
         ),
         '1' => array(
-          'data'  => 'Обов`язково модуль повинен супроводжуватися <a href="https://www.drupal.org/coding-standards">кодінг стандартами</a>',
-          'id'    => 'sub_2',
+          'data' => 'Обов`язково модуль повинен супроводжуватися <a href="https://www.drupal.org/coding-standards">кодінг стандартами</a>',
+          'id' => 'sub_2',
           'class' => array('sub-item-2'),
           'style' => 'list-style-type:circle',
         ),
       ),
     ),
-  );  
+  );
   $list = theme('item_list', array(
-    'items'      => $items, 
-    'title'      => 'Етап 4 (Темізація)',
-    'type'       => 'ol',
+    'items' => $items,
+    'title' => 'Етап 4 (Темізація)',
+    'type' => 'ol',
     'attributes' => array(
-      'id'    => 'my-list',
+      'id' => 'my-list',
       'class' => 'class',
     ),
   ));
 
 
   //таблиця
-  $header = array( 
-    array('data' => t('Header 1')),  
-    array('data' => t('Header 2')),  
-    array('data' => t('Header 3'))   
-  ); 
-  $rows[] = array( 
-    array('data' => t('Row1–Cell1')), 
-    array('data' => t('Row1–Cell2')), 
-    array('data' => t('Row1–Cell3'))   
-  ); 
-  $rows[] = array(  
-    array('data' => t('Row2–Cell1')), 
-    array('data' => t('Row2–Cell2')), 
-    array('data' => t('Row2–Cell3')) 
-  ); 
-  $output .= theme('table', array('header' => $header, 'rows'=> $rows));
-
-
+  $header = array(
+    array('data' => t('Header 1')),
+    array('data' => t('Header 2')),
+    array('data' => t('Header 3'))
+  );
+  $rows[] = array(
+    array('data' => t('Row1–Cell1')),
+    array('data' => t('Row1–Cell2')),
+    array('data' => t('Row1–Cell3'))
+  );
+  $rows[] = array(
+    array('data' => t('Row2–Cell1')),
+    array('data' => t('Row2–Cell2')),
+    array('data' => t('Row2–Cell3'))
+  );
+  $output .= theme('table', array('header' => $header, 'rows' => $rows));
 
 
   //fieldset
   drupal_add_library('system', 'drupal.collapse');
   $fieldset_params = array(
-    '#title'       => t('fieldset title'), 
-    '#children'    => t($list), 
-    '#collapsible' => true,  
+    '#title' => t('fieldset title'),
+    '#children' => t($list),
+    '#collapsible' => TRUE,
     //'#collapsed' => true, 
-    '#attributes'  => array('class' => array('collapsible',/*'collapsed'*/)),
+    '#attributes' => array('class' => array('collapsible',/*'collapsed'*/)),
   );
   $output .= theme('fieldset', array('element' => $fieldset_params));
 
 
-
   //theme_image_style
-  $image = theme('image_style',array(
-    'path'       => 'public://img-thing.jpg',
+  $image = theme('image_style', array(
+    'path' => 'public://img-thing.jpg',
     'style_name' => 'my_theming',
-    'alt'        => 'picture',
-    'title'      => 'Title Text',
-    'width'      => '600px',
+    'alt' => 'picture',
+    'title' => 'Title Text',
+    'width' => '600px',
   ));
   $output .= $image;
 
 
   //виведення просто тексту функцією темізації
   $text_one = "საბეჭდი და ტიპოგრაფიული ინდუსტრიის უშინაარსო ტექსტია. იგი სტანდარტად 1500-იანი წლებიდან იქცა, როდესაც უცნობმა მბეჭდავმა ამწყობ დაზგაზე წიგნის საცდელი ეგზემპლარი დაბეჭდა. მისი ტექსტი არამარტო 5 საუკუნის მანძილზე შემორჩა, არამედ მან დღემდე, ელექტრონული ტიპოგრაფიის დრომდეც უცვლელად მოაღწია. განსაკუთრებული პოპულარობა მას 1960-იან წლებში გამოსულმა Letraset-ის ცნობილმა ტრაფარეტებმა მოუტანა, უფრო მოგვიანებით კი — Aldus PageMaker-ის ტიპის საგამომცემლო პროგრამებმა, რომლებშიც Lorem Ipsum-ის სხვადასხვა ვერსიები იყო ჩაშენებული. ";
-  $text_h2 = theme('my_theming_function', array('text_one' => $text_one, 'text_two' => NULL));
+  $text_h2 = theme('my_theming_function', array(
+    'text_one' => $text_one,
+    'text_two' => NULL
+  ));
   $output .= $text_h2;
-
 
 
   //застосування шаблону темізації
   $text_one_template = 'some text in template`s variable';
   $text_two_template = 'text_two_template';
 
-/*  $test_template = array(
-    '#theme' => 'my_theming_template',
-    '#type' => 'markup',
-    '#text_one' => $text_one_template,
-    '#text_two' => $text_two_template,
-  );*/
+  /*  $test_template = array(
+      '#theme' => 'my_theming_template',
+      '#type' => 'markup',
+      '#text_one' => $text_one_template,
+      '#text_two' => $text_two_template,
+    );*/
 
   $test_template = theme('my_theming_template', array(
-    'type'     => 'markup',
+    'type' => 'markup',
     'text_one' => $text_one_template,
     'text_two' => $text_two_template,
   ));
@@ -181,11 +178,8 @@ function my_theming_page_callback() {
 }
 
 
-
-
 /*------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------*/
-
 
 
 /**
@@ -195,7 +189,7 @@ function my_theming_theme($existing, $type, $theme, $path) {
   return array(
     'my_theming_function' => array(
       'variables' => array(
-        'text_one' => NULL, 
+        'text_one' => NULL,
         'text_two' => NULL,
       ),
     ),
