@@ -112,35 +112,35 @@ function my_database_table_callback_function() {
  */
 function form_template($val_number, $val_teaser, $val_text, $val_sub_button) {
   $form['number'] = array(
-    '#type'          => 'textfield',
-    '#title'         => t('number'),
-    '#size'          => 60,
-    '#maxlength'     => 60,
-    '#required'      => TRUE,
-    '#default_value' => $val_number,  
+    '#type' => 'textfield',
+    '#title' => t('number'),
+    '#size' => 60,
+    '#maxlength' => 60,
+    '#required' => TRUE,
+    '#default_value' => $val_number,
   );
   $form['teaser'] = array(
-    '#type'          => 'textarea', 
-    '#title'         => t('teaser'),
-    '#rows'          => 3,
-    '#required'      => TRUE,
-    '#attributes'    => array(
+    '#type' => 'textarea',
+    '#title' => t('teaser'),
+    '#rows' => 3,
+    '#required' => TRUE,
+    '#attributes' => array(
       'maxlength' => array('150'),
     ),
-    '#description'   => t('maxlength: 150 chars'),
-    '#default_value' => $val_teaser, 
+    '#description' => t('maxlength: 150 chars'),
+    '#default_value' => $val_teaser,
   );
   $form['text'] = array(
-    '#type'          => 'textarea', 
-    '#title'         => t('long text'),
-    '#rows'          => 7,
-    '#required'      => TRUE,
-    '#default_value' => $val_text, 
+    '#type' => 'textarea',
+    '#title' => t('long text'),
+    '#rows' => 7,
+    '#required' => TRUE,
+    '#default_value' => $val_text,
   );
   $form['submit_button'] = array(
-    '#type'  => 'submit',
+    '#type' => 'submit',
     '#value' => t($val_sub_button),
-  ); 
+  );
   return $form;
 }
 
