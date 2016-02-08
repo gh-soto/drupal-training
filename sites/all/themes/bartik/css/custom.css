@@ -1,0 +1,20 @@
+#test-reg-form {
+  /*width: 410px;*/
+  /*background: #f8ffb3;*/
+  /*position: absolute;*/
+  /*top: 20%;*/
+  /*left: 30%;*/
+  z-index: 20;
+  display: none;
+}
+.fancybox {
+  border: 2px solid red;
+}
+
+
+#edit-submit--2 {
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+}
+

@@ -1,0 +1,58 @@
+<?php
+
+function test_menu() {
+  $items = array();
+  $items['test'] = array(
+    'type' => MENU_SUGGESTED_ITEM,
+    'title' => t('Test page'),
+    'page callback' => 'test_page',
+    'access arguments' => array('access content'),
+  );
+  $items['callback'] = array(
+    'type' => MENU_CALLBACK,
+    'page callback' => 'test_callback',
+    'access arguments' => array('access content'),
+  );
+
+  return $items;
+}
+
+function test_page() {
+  drupal_add_js('misc/jquery.form.js');
+  drupal_add_js(drupal_get_path('module', 'test') . '/test.js');
+  $output = '<div id="form"></div>';
+  return $output . l(t('Get form'), 'callback', array('attributes' => array('id' => 'test-link')));
+}
+
+function test_callback() {
+  print drupal_render(drupal_get_form('test_form'));
+  drupal_exit();
+}
+
+function test_form($form, $form_state) {
+  $form = array();
+  $form['aass'] = array(
+    '#theme' => 'status_messages'
+  );
+  $form['messages'] = array(
+    '#markup' => '',
+  );
+  $form['name'] = array(
+    '#title' => t('Name'),
+    '#type' => 'textfield',
+    '#default_value' => '',
+    '#required' => TRUE,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+  return $form;
+}
+
+function test_form_validate(&$form, &$form_state) {}
+
+function test_form_submit($form, &$form_state) {
+  $form_state['rebuild'] = TRUE;
+  drupal_set_message(t('Ok. All good!'));
+}

@@ -1,0 +1,5 @@
+&Id:$
+name = test
+description = ajax form test
+version = 7.x-dev
+core = 7.x

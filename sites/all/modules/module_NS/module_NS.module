@@ -87,6 +87,21 @@ function module_NS_block_view($delta = '') {
 }
 
 
+/**
+ * Implements hook_form_alter()
+ */
+
+function module_NS_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'user_register_form') {
+    $form['form_wrapper']['submit'] = array(
+      '#type' => 'submit',
+      '#value' => 'Отправить.',
+      '#attributes' => array('class' => array('use-ajax-submit')),
+    );
+  }
+}
+
+
 
 
 /**
