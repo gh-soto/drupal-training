@@ -136,3 +136,5 @@ function new_403_func() {
 function new_404_func() {
   return t ('<h1>404</h1> page not found');
 }
+
+//test
